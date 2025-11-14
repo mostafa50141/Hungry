@@ -1,0 +1,28 @@
+// ignore_for_file: unused_field
+
+import 'package:dio/dio.dart';
+
+class DioClient {
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://sonic-zdi0.onrender.com/api',
+      headers: {"Content_type": "application/json"},
+    ),
+  );
+
+  DioClient() {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = 'Mostafa Abdelaziz';
+          if (token != null && token.isNotEmpty) {
+            options.headers["Authorization"] = 'Bearer $token';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+  }
+
+  Dio get dio => _dio;
+}
