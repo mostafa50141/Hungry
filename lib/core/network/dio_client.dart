@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:dio/dio.dart';
+import 'package:hungry/core/utils/pref_helpers.dart';
 
 class DioClient {
   final Dio _dio = Dio(
@@ -13,8 +14,8 @@ class DioClient {
   DioClient() {
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          final token = 'Mostafa Abdelaziz';
+        onRequest: (options, handler) async {
+          final token = await PrefHelpers.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers["Authorization"] = 'Bearer $token';
           }
